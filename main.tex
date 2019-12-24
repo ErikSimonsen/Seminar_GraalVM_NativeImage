@@ -1,0 +1,88 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[left=3cm,right=2cm,top=2.5cm,bottom=1.5cm,includeheadfoot]{geometry}
+
+\usepackage[english, ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{makeidx}
+
+% Blindtext
+\usepackage{blindtext}
+\usepackage{lipsum}
+
+% Umlaute
+\usepackage[utf8]{inputenc}
+
+% Verbesserte Schrift
+\usepackage{microtype}
+
+% Verlinkungen
+\usepackage{hyperref}
+
+% Bessere Tabellen
+\usepackage{array}
+%\usepackage[table]{xcolor}
+
+% Abkürzungsverzeichnis
+\usepackage[nolist, nohyperlinks]{acronym}
+
+% Figure a b
+\usepackage{subcaption}
+
+% Entfernt alle Bilder
+%\usepackage[nolists,nomarkers]{endfloat}
+%\renewcommand{\processdelayedfloats}{}
+
+\input{pdf}
+\input{bib/lstlisting-definition}
+\input{tree-definition}
+\input{todo-definition}
+\input{bib/bib-definition}
+\input{frontmatter/acronyms.tex}
+\begin{document}
+
+\pagestyle{empty}
+\pagenumbering{roman}
+\input{frontmatter/titlepage}
+\input{frontmatter/abstract}
+\input{frontmatter/ehrenwort}
+\input{frontmatter/toc}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{headings}
+
+\input{mainmatter/einleitung}
+\newpage
+\input{mainmatter/system}
+\newpage
+\input{mainmatter/system_pointsto}
+\newpage
+\input{mainmatter/system_initializationcode}
+\newpage
+\input{mainmatter/system_heapsnapshotting}
+\newpage
+\input{mainmatter/system_aotc}
+\newpage
+\input{mainmatter/system_isolates}
+\newpage
+\input{mainmatter/system_imageheap}
+\newpage
+
+\input{mainmatter/performanceBenchmarks}
+\newpage
+
+\input{mainmatter/schwierigkeiten}
+\newpage
+\input{mainmatter/limitierungen}
+\newpage
+
+\input{mainmatter/fazit}
+\newpage
+
+\input{bib/literatur}
+\newpage
+
+\end{document}

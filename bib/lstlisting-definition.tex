@@ -1,0 +1,52 @@
+% !TEX root = main.tex
+\usepackage{listings}
+\usepackage{accsupp}
+\usepackage[margin=12pt]{caption}
+
+% LstListing Color
+\definecolor{commentGreen}{rgb}{0,0.6,0}
+\definecolor{numberGray}{rgb}{0.25,0.25,0.25}
+\definecolor{stringMauve}{rgb}{0.08,0.52,0.1}
+\definecolor{backgroundGray}{rgb}{0.98,0.98,0.98}
+
+\lstset{ %
+	abovecaptionskip=12pt,
+	backgroundcolor=\color{backgroundGray},
+	basewidth=0.5em,
+	basicstyle=\small\ttfamily,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	columns=flexible,
+	commentstyle=\color{commentGreen},
+	deletekeywords={...},
+	escapeinside={(*@}{@*)},
+	extendedchars=false,
+	frame=lr,
+	framesep=20pt,
+	framerule=0pt,
+	keepspaces=true,
+	keywordstyle=\color{blue},
+	language=Java,
+	otherkeywords={my-component,export,@Component,@Directive,@Injectable,@Input,@Output,io-component,ee-node,ee-separator,ee-panel,ee-panel-header,ee-table},
+	numbers=left,
+	numbersep=5pt,
+	numberstyle=\scriptsize\color{numberGray}\noncopynumber,
+	rulecolor=\color{black},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{stringMauve},
+	tabsize=4,
+	title=\lstname,
+	xleftmargin=0.5cm
+}
+
+\newcommand{\noncopynumber}[1]{
+	\BeginAccSupp{method=escape,ActualText={}}
+	#1
+	\EndAccSupp{}
+}
+
+\renewcommand{\lstlistingname}{Codeausschnitt}
