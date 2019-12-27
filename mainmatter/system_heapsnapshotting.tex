@@ -1,2 +1,9 @@
 \subsection{Heap Snapshotting}
 \label{subsec:heapsnapshotting}
+Beim Heap Snapshotting wird aus dem \textit{type-flow graph} der Pointer Analyse ein Objekt-Graph generiert.
+
+Die Wurzelzeiger (eng. root pointers) des Graphen sind statische Objekt Felder, die von der Pointer Analyse als \textit{read} (also Felder die nur gelesen werden, aber zur Laufzeit nicht geschrieben werden) markiert sind. Für jedes dieser Objekte wird nun ermittelt welche weiteren Objekte von dessen Feldern erreichbar sind. Dafür werden diese nachverfolgt, indem die Feldwerte durch Reflection gelesen werden. Dies ist möglich, da der \textit{image builder} eine Java Anwendung ist. Nur Felder, die von der Pointer Analyse als \textit{read} markiert sind, werden nachverfolgt. Falls die Klasse des Feldwertes von der Pointer-Analyse noch nicht als möglicher Typ für das Feld ermittelt wurde, wird die Klasse als weiterer Feldtyp des Feldes im \textit{type-flow graph} registriert (siehe Abbildung~\ref{fig:typeflowgraph}).
+
+Nach dem Heapsnapshotting wird die Pointer-Analyse wieder ausgeführt, um den neuen Typ des Feldes allen transitiven Verwendungen des Feldes zu propagieren. Dies geschieht durch den \textit{type-flow graph}. Da im \textit{type-flow graph} neue Typen hinzugekommen sind, werden auch bei der Ausführung der Klasseninitialisierer neue Initialisierer ausgeführt. Anschließend wird wieder das Heap Snapshotting ausgeführt. 
+Die iterative Ausführung dieser Phasen wird beendet, sobald die Pointer-Analyse in zwei aufeinanderfolgenden Iterationen keine Änderungen findet, wenn also die Klasseninitialisier und das Heap-Snapshotting keinen neuen Code erreichbar gemacht haben.
+Die Objekte des Graphen werden serializiert und in die Data-Sektion des \textit{native image} geschrieben, und bilden somit den \textit{image heap}.
