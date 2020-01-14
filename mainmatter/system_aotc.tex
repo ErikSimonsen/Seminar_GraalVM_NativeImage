@@ -1,2 +1,4 @@
 \subsection{Ahead-of-Time Compilation}
 \label{subsec:aotc}
+
+Alle Methoden die von der Points-To Analyse als \textit{erreichbar} markiert sind, werden vom GraalVM Kompiler \textit{Ahead-of-Time(AOT)} kompiliert und in der Text-Section des native image platziert. Der Kompiler führt alle standardmäßigen Optimierungen, wie u.A Inline-Ersetzung, Loop-Unrolling und Constant-Folding, 
