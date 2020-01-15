@@ -1,2 +1,7 @@
 \subsection{Isolate}
 \label{subsec:isolate}
+
+Isolates stellen mehrere voneinander unabhängige VM-Instanzen im gleichen Prozess bereit. Statt einen großen Java-Heap zu haben,
+kann der Heap dadurch in mehrere kleine Teile aufgeteilt werden. Beim Erstellen eines Isolates wird ein neuer separater 
+Heap angelegt, welcher den \textit{image heap} als Startpunkt referenziert. Dadurch sind alle, während des \textit{image building}
+ausgeführten Initialisierungen sofort in jedem Isolat verfügbar. 

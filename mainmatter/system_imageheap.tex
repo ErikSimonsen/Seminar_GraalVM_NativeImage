@@ -1,2 +1,14 @@
 \subsection{Image Heap}
 \label{subsec:imageheap}
+
+Die Ausführung des \textit{native image} erfolgt mit einem bereits, durch das Heap-Snapshotting zur Build-Time, gefüllten Java Heap,
+dem \textit{image heap}. Das Starten des executables und das Erstellen von isolierten VM Instanzen (\textit{Isolates} in einem existierenden Prozess muss
+schnell sein und wenig Speicheraufwand benötigen, damit für kurzfristige Aufgaben sofort mehrere VM-Instanzen gestartet werden können.
+Um das zu gewährleisten, darf der image heap nicht für jede Instanz neu kopiert werden, sondern wird auf verschiedene Speicheradressen im selben Adressraum
+abgebildet. Daher sind alle Referenzen relativ zum Start des \textit{image heaps}, sowohl von bereits im image heap vorhandenen Objekten, als auch von Objekten die 
+erst zur Laufzeit allokiert werden. Dadurch kann der \textit{image heap} mehrere Male im Speicher des Adressraumes abgebildet werden, und erlaubt somit
+schnelles Erstellen von Isolaten, da das Replizieren des \textit{image heaps} kein Kopieren erfordert. Zudem wird der Speicheraufwand durch das, auf den
+image heap angewandte, Copy-On-Write Verfahren deutlich reduziert. Dabei erhalten alle Prozesse die auf die gleiche Speicherseite zugreifen, eine flache Kopie davon, also nur Zeiger die 
+auf die tatsächliche Speicheradressen zeigen. Solange die Prozesse die Daten lediglich auslesen, ist es nicht nötig die Daten zu kopieren oder erneut im Hauptspeicher anzulegen. Alle Prozesse greifen also
+auf das "Original" zu. Erst sobald ein Prozess Daten ändert (write), wird ein neuer Datenblock angelegt(copy) und die entsprechenden Referenzen angepasst \cite{bovet2002understanding}.
+Der \textit{image heap} wird vom \textit{garbage collector} als Wurzelzeiger (root pointer) behandelt, und wird daher nicht deallokiert.
