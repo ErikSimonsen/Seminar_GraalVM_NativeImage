@@ -10,5 +10,5 @@ erst zur Laufzeit allokiert werden. Dadurch kann der \textit{image heap} mehrere
 schnelles Erstellen von Isolaten, da das Replizieren des \textit{image heaps} kein Kopieren erfordert. Zudem wird der Speicheraufwand durch das, auf den
 image heap angewandte, Copy-On-Write Verfahren deutlich reduziert. Dabei erhalten alle Prozesse die auf die gleiche Speicherseite zugreifen, eine flache Kopie davon, also nur Zeiger die 
 auf die tatsächliche Speicheradressen zeigen. Solange die Prozesse die Daten lediglich auslesen, ist es nicht nötig die Daten zu kopieren oder erneut im Hauptspeicher anzulegen. Alle Prozesse greifen also
-auf das "Original" zu. Erst sobald ein Prozess Daten ändert (write), wird ein neuer Datenblock angelegt(copy) und die entsprechenden Referenzen angepasst \cite{bovet2002understanding}.
+auf das \grqq{}Original\grqq{} zu. Erst sobald ein Prozess Daten ändert (write), wird ein neuer Datenblock angelegt(copy) und die entsprechenden Referenzen angepasst \parencite{bovet2002understanding}.
 Der \textit{image heap} wird vom \textit{garbage collector} als Wurzelzeiger (root pointer) behandelt, und wird daher nicht deallokiert.
