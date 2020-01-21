@@ -7,8 +7,11 @@ Durch \textit{native image} wird ein leichtgewichtige, in sich geschlossene ausf
 von Initialisierungscode und Heap-Snapshotting iterativ ausgeführt werden und anschließend die ahead-of-time Kompilierung erfolgt.
 
 Durch die Initialisierung der Anwendung zur Build-Time und das Nutzen des \textit{image heaps} wird eine schnelle Startzeit, eine geringe Speichernutzung und eine gute Spitzenleistung
-ermöglicht. Beim Vergleich populärer Java-Microservice Frameworks konnte im Durchschnitt eine um den Faktor 5 verbesserte Speichernutzung
+ermöglicht.  Zur geringeren Speichernutzung trägt auch der Umstand bei, dass es nicht mehr notwendig ist die gesamte JVM (lediglich die SubstrateVM) während der Laufzeit laufen zu lassen,
+ da keine Codeoptimierungen zur Laufzeit durch den JIT-Compiler und Profiler stattfinden. Beim Vergleich populärer Java-Microservice Frameworks konnte im Durchschnitt eine um den Faktor 5 verbesserte Speichernutzung
 und um den Faktor 50 verbesserte Startzeit gemessen werden, wenn statt des GraalVM HotSpot Mode GraalVM Native Image verwendet wird.
 
 Dadurch eignet sich die Nutzung von GraalVM Native Image für die Nutzung von Java in Microservices und Serverless Cloud Functions, da hier bei jedem Start eines Services oder einer Funktion 
-Kosten entsprechend der Startzeit und der Speichernutzung verursacht werden. 
+Kosten entsprechend der Startzeit und der Speichernutzung verursacht werden, und somit die Startzeit und der Speicherbedarf höchste Priorität haben. 
+Sobald allerdings der Heap Dimensionen von mehreren Gbyte - Tbyte annimmt und/oder Klassen bzw. andere Teile des Codes erst zur Laufzeit bekannt werden, und somit die Closed-World Annahme verletzen,
+ eignet sich die Java HotSpotVM besser. 
