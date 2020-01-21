@@ -2,7 +2,9 @@
 \section{Systemüberblick}
 \label{sec:system}
 In diesem Abschnitt wird die Systemstruktur gezeigt, sowie alle, zur Build- und Runtime relevanten, Komponenten von GraalVM Native Image erläutert.
-Die Eingabe ist Java Bytecode, dieser kann dementsprechend von jeder JVM Sprache stammen, da diese zu Java Bytecode kompiliert werden. Der Anwendungscode, die benötigten Bibliotheken, das JDK und Teile einer virtuellen Maschine (SubstrateVM)\footnote{Umfasst u.A. Speicherverwaltung, Thread-Scheduling und Garbage Collection} werden zu Maschinencode kompiliert. Die resultierende, auf ein spezifisches Betriebssystem und Prozessorarchitektur angepasste, nativ ausführbare Datei(engl. executable) wird \textit{native image} genannt. Abbildung 1 zeigt die Komponenten und den Ablauf des Build-Vorgangs eines native image.
+Die Eingabe ist Java Bytecode, dieser kann dementsprechend von jeder JVM Sprache stammen, da diese zu Java Bytecode kompiliert werden. 
+Der Anwendungscode, die benötigten Bibliotheken, das JDK und Teile einer virtuellen Maschine (SubstrateVM)\footnote{Umfasst u.A. Speicherverwaltung, Thread-Scheduling und Garbage Collection} 
+werden zu Maschinencode kompiliert. Die resultierende, auf ein spezifisches Betriebssystem und Prozessorarchitektur angepasste, nativ ausführbare Datei(engl. executable) wird \textit{native image} genannt. Abbildung 1 zeigt die Komponenten und den Ablauf des Build-Vorgangs eines native image.
 
 \begin{figure}[h]
 	\centering
