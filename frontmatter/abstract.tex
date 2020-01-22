@@ -1,7 +1,14 @@
 % !TEX root = main.tex
 \selectlanguage{ngerman}
 \begin{abstract}
-%\normalsize Setzt die Schriftgröße auf 12pt
-%\noindent Entfernt die Indentierung, warum die da sind keine Ahnung
-\blindtext
+\normalsize
+\noindent 
+In den letzten Jahren ging der Trend in der Softwareentwicklung von Monolithen, die auf hohen Durchsatz ausgelegt waren, zu Microservices und zu Functions as a Service(FaaS), die 
+auf kleine, in sich geschlossene Anwendungen ausgelegt sind, die oft gestartet werden. Dabei beeinflussen die Startzeit und der Speicherverbrauch direkt die erhobenen Kosten der Cloudanbieter.
+Die Nutzung von Java spielte in diesen Bereichen bislang eher eine kleine Rolle, aufgrund der langsamen Startzeiten, benötigter Aufwärmzeiten und hohen Speicherverbrauchs der JVM. Ein Faktor dafür
+ ist unter anderem die Funktionalität die Java zur Laufzeit bietet und es damit auch von anderen Sprachen abhebt, beispielsweise \textit{dynamic class loading}. Für Anwendungen, die solche Java-Features allerdings nicht nutzen, und zum Deployment der sog. 
+Closed-World Annahme entsprechen, bietet die Native Image-Funktionalität von GraalVM schnelle Startzeiten und geringen Speicherverbrauch, und macht sie dadurch geeignet für genannte Anwendungsmodelle.
+Dabei wird der Anwendungscode, dazugehörige Bibliotheken, die JVM und spezifische Virtual Machine-Komponenten in eine nativ ausführbare, in sich geschlossene Datei (\textit{native image bzw. executable}
+durch ahead-of-time Kompiling kompiliert. Während des Build-Prozesses werden erhebliche Code-Optimierungen gemacht und der Heap des \textit{native image} wird bereits vorgefüllt. Dadurch wird eine, im Gegensatz zur Java Hotspot VM,
+erhebliche Steigerung der Startzeit und des Speicherverbrauches erzielt.
 \end{abstract}

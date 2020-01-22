@@ -4,43 +4,36 @@
 
 \subsection{Motivation}
 \label{subsec:motivation}
-an einleitung im paper orientieren
-    • //Moderne Softwareentwicklung setzt auf Serverless- Computing, schnell skalierende Cloudarchitekturen wie Microservices (Verteilte Systeme)
-    • Schnelle Start und Ausführungszeiten sind wichtig, maximaler Durchsatz zweitrangig (Kostenfrage)
-    • // teilweise Installation des JRE inkl. Der Anwendung (Deployment) zu aufwendig
-    • // Start-Up Zeit der JVM zu langsam
-    • // HotSpotVM schon 20 Jahre alt und in C++ geschrieben (Codebasis aufwendig zu warten \& weiterzuentwickeln)
-Java momentan nicht wirklich geeignet für Cloud mit schnellen kontinuierlichen Deployments und Microservices
-//was ist graalvm native image und was für benefits werden geboten
+Softwareentwicklung hat sich in den letzten Jahren stark verändert, moderne Anwendungen setzen immer öfter auf Microservices und verschiedene Modelle des Cloud-Computings, wie
+Serverless Computing. Statt große Anwendungsserver zu nutzen, werden dabei unabhängige Services deployed (Function as a Service, FaaS). Sobald die Workload steigt, also die Anzahl der Anfragen an den Service steigen,
+werden von der jeweiligen Cloudplattform mehrere \textit{Worker} erstellt, welche die Anfragen bearbeiten. Bei der ersten Anfrage die ein neuer \textit{Worker} bearbeitet, muss zuerst die Laufzeitumgebung 
+der jeweiligen Programmiersprache und die Konfiguration des Services initialisiert werden. Da solche Kaltstarts bei virtuellen Machinen häufig sehr langsam sind\footnote{Besonders bei Java VMs
+ durch Ausführen von Class Loading, Profiling, dynamischer Kompilierung etc.} und Cloudanbieter nach Start- und Laufzeit einer Funktion abrechnen bietet sich die Nutzung von Java VMs nicht an.
 
-\subsection{GraalVM und NativeImage}
-\label{subsec:graalvmnativeimage}
-Was ist GraalVM (Folie GraalVM-Architektur)
-Was ist NativeImage und was ist die grundlegende Idee des Ansatzes? (Kombination von mehreren Ansätzen wie Points-To Analyse, ImageHeap, AoT Compilation)
-Und welche grundlegenden Vorteile bieten Sie bzw. generell Executables
+\subsection{GraalVM}
+\label{subsec:graalvm}
 
-GraalVM Architektur für Native Image relevant
-GraalVM nutzt als Grundlage OpenJDK
-Zentrale Komponente ist der in Java geschriebene, hoch optimierende Graal-Compiler
-Integriert den Graal-Compiler über das JVMCI (Java Virtual Machine Compiler Interface, JEP 243) in das OpenJDK
-Dieser ersetzt den JIT(Just in Time)-Compiler C2 der HotSpot JVM (zentraler Bestandteil der JRE)
-C2 ist ein aggressiv optimierender Compiler der für Serveranwendungen genutzt wird, bei denen es auf höchsten Durchsatz ankommt
-Name „GraalVM“ etwas irreführend, passender wäre „OpenJDK mit Graal Compiler und zusätzlichen Werkzeugen“
+GraalVM ist ein Softwareprodukt von Oracle. Es wird als Ökosystem bezeichnet und die zentrale Komponente ist der \textit{GraalVM Compiler), ein in Java geschriebener JIT(Just-in-time)-Compiler für Java, der durch neue Codeanalyse- und 
+ Optimierungsmethoden erhebliche Performancevorteile bietet.
+Darüber hinaus bietet GraalVM die Möglichkeit der polyglotten Programmierung mithilfe des Truffle-Frameworks und der Ausführung von nativem Code auf der JVM, durch einen LLVM Bitcode Interpreter.
+Zudem bietet GraalVM die \textit{Native Image} Funktionalität, die im weiteren Verlauf dieser Arbeit thematisiert wird. \textit{Native Image} ermöglicht das ahead-of-time kompilieren von Java-Anwendungen in nativ ausführbare Dateien (executables).
+Die Grundlage von GraalVM bietet das OpenJDK\parencite{GraalComponents}.\newline
 
-NativeImage was ist das
-Erlaubt es Java-Code ahead-of-time in eine eigenständige ausführbare Anwendung (executable) zu kompilieren
-Das Executable läuft nicht auf der JVM sondern umfasst alle nötigen Komponenten wie Speicherverwaltung, Thread-Scheduling und Garbage Collection aus einer anderen VM -> Substrate VM
-Weiterer Bestandteil des GraalVM Ökosystems
-Die Substrate VM wird auch in die Executable hineinkompiliert
-Closed-World Assumption erwähnen
-NativeImage Vorteile
+ Darin enthalten ist, neben Komponenten & Werkzeugen für die Entwicklung, auch die Java-Laufzeitumgebung (Java Runtime Environment, JRE), welche die HotSpot JVM enthält.
+Die Hotspot JVM enthält zwei JIT-Compiler:  C1, einen schnellen und nur leicht optimierenden Compiler, ursprünglich gedacht für Desktopanwendungen, und C2, einen aggressiv optimierenden Compiler für 
+Serveranwendungen, bei denen es auf höchsten Durchsatz ankommt.
+Über das JMVCI (Java Virtual Machine Compiler Interface, \parencite{OpenJDK243}) wird der GraalVM-Compiler in das OpenJDK integriert und ersetzt den Compiler C2 der HotSpot JVM. Entgegen des Namens ist GraalVM
+also genau genommen keine eigene virtuelle Maschine, sondern nutzt die HotSpot JVM mit einem anderen JIT-Compiler.
 
-Leichte Verteilung \& Installation von Java-Programmen
-Keine JRE-Installation auf den Clients notwendig
-Verschiedene Jars der benötigten Bibliotheken müssen nicht mehr zusätzlich ausgeliefert werden
-Wesentlich schnellere Startup Zeit durch AoT-Kompilierung
-Signifikant kostengünstiger bei Serverless- und weiteren Cloudarchitekturen und häufigen Deployments (Durchsatz zweitrangig)
-Performanceverhalten ist konstant und vorhersagbar
-Code wird nicht mehr zur Laufzeit durch den JIT-Compiler + Profiler optimiert
-Deutlich weniger Speicher, da die JVM für den JIT-Compiler nicht dauerhaft mitläuft
+\subsection{NativeImage}
+\label{subsec:nativeImage}
 
+Die \textit{NativeImage}-Funktionalität wird bei GraalVM als optionale Komponente angeboten, und muss explizit installiert werden. 
+Sie erlaubt die AOT-Kompilierung von Java-Anwendungen in nativ ausführbare Dateien (executables bzw. \textit{native images}).
+Das executable läuft nicht auf der JVM und bezieht Funktionalitäten, wie Speicherverwaltung, Thread-Scheduling und Garbage Collection von einer, auf das notwendigste reduzierten, in Java geschriebenen virtuellen Machine
+, genannt \textit{SubstrateVM}\parencite{GraalVMNativeImage}. Die \textit{SubstrateVM} wird, zusätzlich zum Anwendungscode, Bibliotheken und dem JDK in das \textit{native image} hineinkompiliert.
+Weil das executable in sich abgeschlossen ist muss dabei die Closed-World Annahme erfüllt werden, das heißt jeglicher Bytecode muss zum Zeitpunkt der Kompilierung bzw. zur Build-Time bekannt und vorhanden sein, und 
+zur Laufzeit dürfen keine neuen Klassen geladen bzw. Bytecode generiert werden. Ansonsten wäre ein Großteil der ausgeführten Optimierungen während der Build-Time nicht möglich.
+
+Im Weiteren Verlauf der Arbeit wird der gesamte Build-Prozess erläutert, Performanceparameter zwischen einer Anwendung als \textit{native image} und auf der Hotspot JVM verglichen, sowie die Limitierungen des 
+\textit{native image}-Ansatzes dargelegt.
