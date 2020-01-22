@@ -11,7 +11,12 @@ ca. den Faktor 50 schneller (siehe Abb. \ref{fig:system_startuptime}) und der Sp
  trivialen REST-Services ein Vergleich durchgeführt. Nach der Warmup-Phase (ca. 70.000 Requests) liegen sowohl das \textit{native-image} als auch die HotSpotVM fast gleichauf mit ~31.000 Requests die pro
  Sekunde verarbeit werden können. Anzumerken hierbei ist allerdings, dass während der Warmup-Phase das \textit{native-image} wesentlich mehr Request pro Sekunde verarbeiten kann und schneller die
  Spitzenleistung erreicht (siehe Abb. \ref{fig:system_request}).
- 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{resources/requests_vergleich.png}
+	\caption{Spitzenleistung von einem REST-basierten Service in Quarkus \parencite[Fig.12]{Wimmer2019}}
+	\label{fig:system_request}
+\end{figure} 
 \newpage
 \begin{figure}[h]
 	\centering
@@ -24,10 +29,4 @@ ca. den Faktor 50 schneller (siehe Abb. \ref{fig:system_startuptime}) und der Sp
 	\includegraphics[width=.9\textwidth]{resources/ms_memory_footprint.png}
 	\caption{Microservices Frameworks Speicherbedarf mit Native Image \parencite{GraalVMBenchmarks}}
 	\label{fig:system_memory_footprint}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=.9\textwidth]{resources/requests_vergleich.png}
-	\caption{Spitzenleistung von einem REST-basierten Service in Quarkus \parencite[Fig.12]{Wimmer2019}}
-	\label{fig:system_request}
 \end{figure}

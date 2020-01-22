@@ -13,18 +13,18 @@ der jeweiligen Programmiersprache und die Konfiguration des Services initialisie
 \subsection{GraalVM}
 \label{subsec:graalvm}
 
-GraalVM ist ein Softwareprodukt von Oracle. Es wird als Ökosystem bezeichnet und die zentrale Komponente ist der \textit{GraalVM Compiler), ein in Java geschriebener JIT(Just-in-time)-Compiler für Java, der durch neue Codeanalyse- und 
+GraalVM ist ein Softwareprodukt von Oracle. Es wird als Ökosystem bezeichnet und die zentrale Komponente ist der \textit{GraalVM Compiler}, ein in Java geschriebener JIT(Just-in-time)-Compiler für Java, der durch neue Codeanalyse- und 
  Optimierungsmethoden erhebliche Performancevorteile bietet.
 Darüber hinaus bietet GraalVM die Möglichkeit der polyglotten Programmierung mithilfe des Truffle-Frameworks und der Ausführung von nativem Code auf der JVM, durch einen LLVM Bitcode Interpreter.
 Zudem bietet GraalVM die \textit{Native Image} Funktionalität, die im weiteren Verlauf dieser Arbeit thematisiert wird. \textit{Native Image} ermöglicht das ahead-of-time kompilieren von Java-Anwendungen in nativ ausführbare Dateien (executables).
 Die Grundlage von GraalVM bietet das OpenJDK\parencite{GraalComponents}.\newline
 
- Darin enthalten ist, neben Komponenten & Werkzeugen für die Entwicklung, auch die Java-Laufzeitumgebung (Java Runtime Environment, JRE), welche die HotSpot JVM enthält.
-Die Hotspot JVM enthält zwei JIT-Compiler:  C1, einen schnellen und nur leicht optimierenden Compiler, ursprünglich gedacht für Desktopanwendungen, und C2, einen aggressiv optimierenden Compiler für 
+ Darin enthalten ist, neben Komponenten \& Werkzeugen für die Entwicklung, auch die Java-Laufzeitumgebung (Java Runtime Environment, JRE), welche die HotSpot JVM enthält.
+Die Hotspot JVM enthält zwei JIT-Compiler: C1, einen schnellen und nur leicht optimierenden Compiler, ursprünglich gedacht für Desktopanwendungen, und C2, einen aggressiv optimierenden Compiler für 
 Serveranwendungen, bei denen es auf höchsten Durchsatz ankommt.
 Über das JMVCI (Java Virtual Machine Compiler Interface, \parencite{OpenJDK243}) wird der GraalVM-Compiler in das OpenJDK integriert und ersetzt den Compiler C2 der HotSpot JVM. Entgegen des Namens ist GraalVM
 also genau genommen keine eigene virtuelle Maschine, sondern nutzt die HotSpot JVM mit einem anderen JIT-Compiler.
-
+\newpage
 \subsection{NativeImage}
 \label{subsec:nativeImage}
 

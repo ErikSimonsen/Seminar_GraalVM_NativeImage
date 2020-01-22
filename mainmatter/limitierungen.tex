@@ -9,12 +9,13 @@ angegeben die dynamische Proxies definieren. Durch die Nutzung von Konfiguration
 können aufgelöst werden. Um dem Entwickler Arbeit abzunehmen werden während des Buildvorganges automatisch statische Codeanalysen durchgeführt und die Konfigurationsdateien erstellt.
 
 Features wie Dynamic Class Loading und InvokeDynamic, die zur Laufzeit dynamisch neuen Bytecode generieren oder Methodenaufrufe einfügen und ändern können, werden nicht unterstützt.
-Auch der Security Manager wird nicht unterstützt, da es kein dynamisches Klassenloading gibt und dementsprechend nur vertrauenswürdiger Code ausgeführt wird. 
-
-
+Auch der Security Manager wird nicht unterstützt, da es kein dynamisches Klassenloading gibt und dementsprechend nur vertrauenswürdiger Code ausgeführt wird \parencite{GraalLimitiations}.
+Für eine vollständige Auflistung der Features und deren Unterstützung siehe Abbildung \ref{fig:system_limitations}.
+\newpage
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=.8\textwidth]{resources/limitations.png}
+	\includegraphics[width=1\textwidth]{resources/limitations.png}
 	\caption{NativeImage Limitierungen \parencite{GraalLimitiations}}
 	\label{fig:system_limitations}
 \end{figure}
+\newpage
