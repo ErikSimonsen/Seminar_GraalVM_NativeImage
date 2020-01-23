@@ -2,8 +2,7 @@
 \label{subsec:aotc}
 
 Alle Methoden die von der Points-To Analyse als \textit{erreichbar} markiert sind, werden vom GraalVM Kompiler \textit{Ahead-of-Time(AOT)}
-kompiliert und in der Text-Section des native image platziert. Der Kompiler führt alle standardmäßigen Optimierungen, wie u.A Inline-Ersetzung, Loop-Unrolling und Constant-Folding.
-Zudem nutzt der Compiler die Resultate der Points-To analyse um die Code-Qualität zu verbessern. Dabei werden unter Anderem alle Felder, die nicht als \textit{write} markiert sind direkt als Konstante ausgewertet und
-Null-Prüfungen werden entfernt, falls der Typ als \textit{niemals null}  markiert wurde.
-Code der nur zur \textit{build time} aber nicht zur \textit{compile time} ausgeführt wird, wird nicht kompiliert (bspw. Klasseninitialisierer).
+kompiliert und in der Text-Section des \textit{native image} platziert. Der Compiler führt alle standardmäßigen Optimierungen, wie u.A Inline-Ersetzung, Loop-Unrolling und Constant-Folding, aus.
+Zudem nutzt der Compiler die Resultate der Points-To analyse um die Code-Qualität zu verbessern. Dabei werden unter Anderem alle Felder, die nicht als \textit{write} markiert sind direkt als Konstante ausgewertet und Null-Prüfungen werden entfernt, falls der Typ als \textit{niemals null}  markiert wurde.
+Code der nur zur \textit{build time} aber nicht zur \textit{compile time} ausgeführt wird, wie Klasseninitialisierer, wird nicht kompiliert.
 

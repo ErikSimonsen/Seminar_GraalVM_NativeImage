@@ -3,12 +3,11 @@
 \begin{abstract}
 \normalsize
 \noindent 
-In den letzten Jahren ging der Trend in der Softwareentwicklung von Monolithen, die auf hohen Durchsatz ausgelegt waren, zu Microservices und zu Functions as a Service(FaaS), die 
-auf kleine, in sich geschlossene Anwendungen ausgelegt sind, die oft gestartet werden. Dabei beeinflussen die Startzeit und der Speicherverbrauch direkt die erhobenen Kosten der Cloudanbieter.
-Die Nutzung von Java spielte in diesen Bereichen bislang eher eine kleine Rolle, aufgrund der langsamen Startzeiten, benötigter Aufwärmzeiten und hohen Speicherverbrauchs der JVM. Ein Faktor dafür
- ist unter anderem die Funktionalität die Java zur Laufzeit bietet und es damit auch von anderen Sprachen abhebt, beispielsweise \textit{dynamic class loading}. Für Anwendungen, die solche Java-Features allerdings nicht nutzen, und zum Deployment der sog. 
+In den letzten Jahren ging der Trend in der Softwareentwicklung von Monolithen, die auf hohen Durchsatz ausgelegt waren, zu Microservices und Functions as a Service(FaaS). 
+Diese Anwendungsmodelle sind auf auf kleine, in sich geschlossene Anwendungen ausgelegt. Statt einen möglichst hohen Durchsatz während der Laufzeit zu erzielen, werden die
+Services nur dann gestartet, wenn sie angefragt werden und ansonsten heruntergefahren. Dadurch entstehen nur Kosten, wenn ein Service tatsächlich genutzt wird und nicht wenn dieser im Idle-Zustand ist. Die Kosten die bei einer Anfrage an den Service von den Cloudanbietern erhoben werden, hängen hauptsächlich von dessen Startzeit, Laufzeit und Speicherverbrauch ab.\newline
+
+Die Nutzung von Java spielte in diesen Bereichen bislang eher eine kleine Rolle, aufgrund der langsamen Startzeiten und Aufwärmzeiten, sowie des hohen Speicherverbrauchs der JVM. Ein Faktor dafür ist unter anderem die Funktionalität die die JVM zur Laufzeit bietet und es von anderen Plattformen abhebt, beispielsweise \textit{dynamic class loading}. Für Anwendungen, die solche Java-Features nicht nutzen, und zum Deployment der sog. 
 Closed-World Annahme entsprechen, bietet die Native Image-Funktionalität von GraalVM schnelle Startzeiten und geringen Speicherverbrauch, und macht sie dadurch geeignet für genannte Anwendungsmodelle.
-Dabei wird der Anwendungscode, dazugehörige Bibliotheken, die JVM und spezifische Virtual Machine-Komponenten in eine nativ ausführbare, in sich geschlossene Datei (\textit{native image bzw. executable}
-durch ahead-of-time Kompiling kompiliert. Während des Build-Prozesses werden erhebliche Code-Optimierungen gemacht und der Heap des \textit{native image} wird bereits vorgefüllt. Dadurch wird eine, im Gegensatz zur Java Hotspot VM,
-erhebliche Verbesserung der Startzeit und des Speicherverbrauches erzielt.
+Dabei wird der Anwendungscode, dazugehörige Bibliotheken, die JVM und spezifische Virtual Machine-Komponenten ahead-of-time in eine nativ ausführbare, in sich geschlossene Datei (\textit{native image} bzw. \textit{executable}) kompiliert. Während des Build-Prozesses werden erhebliche Code-Optimierungen gemacht und der Heap des \textit{native image} wird bereits vorgefüllt. Dadurch wird eine erhebliche Verbesserung der Startzeit und des Speicherverbrauches gegenüber der Java Hotspot VM erzielt.
 \end{abstract}

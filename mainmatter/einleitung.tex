@@ -8,32 +8,31 @@ Softwareentwicklung hat sich in den letzten Jahren stark verändert, moderne Anw
 Serverless Computing. Statt große Anwendungsserver zu nutzen, werden dabei unabhängige Services deployed (Function as a Service, FaaS). Sobald die Workload steigt, also die Anzahl der Anfragen an den Service steigen,
 werden von der jeweiligen Cloudplattform mehrere \textit{Worker} erstellt, welche die Anfragen bearbeiten. Bei der ersten Anfrage die ein neuer \textit{Worker} bearbeitet, muss zuerst die Laufzeitumgebung 
 der jeweiligen Programmiersprache und die Konfiguration des Services initialisiert werden. Da solche Kaltstarts bei virtuellen Machinen häufig sehr langsam sind\footnote{Besonders bei Java VMs
- durch Ausführen von Class Loading, Profiling, dynamischer Kompilierung etc.} und Cloudanbieter nach Start- und Laufzeit einer Funktion abrechnen bietet sich die Nutzung von Java VMs nicht an.
+ durch Ausführen von Class Loading, Profiling, dynamischer Kompilierung etc.} und Cloudanbieter Kosten abhängig von der Start-, und Laufzeit sowie des Speicherverbrauches eines Services erheben, bietet sich die Nutzung von Java VMs kaum an.
 
 \subsection{GraalVM}
 \label{subsec:graalvm}
 
-GraalVM ist ein Softwareprodukt von Oracle. Es wird als Ökosystem bezeichnet und die zentrale Komponente ist der \textit{GraalVM Compiler}, ein in Java geschriebener JIT(Just-in-time)-Compiler für Java, der durch neue Codeanalyse- und 
+GraalVM ist ein Softwareprodukt von Oracle. Es wird als Ökosystem bezeichnet und die zentrale Komponente ist der \textit{GraalVM Compiler}, ein in Java geschriebener JIT(Just-in-time)-Compiler für Java, der laut dem Hersteller durch neue Codeanalyse- und 
  Optimierungsmethoden erhebliche Performancevorteile bietet.
-Darüber hinaus bietet GraalVM die Möglichkeit der polyglotten Programmierung mithilfe des Truffle-Frameworks und der Ausführung von nativem Code auf der JVM, durch einen LLVM Bitcode Interpreter.
-Zudem bietet GraalVM die \textit{Native Image} Funktionalität, die im weiteren Verlauf dieser Arbeit thematisiert wird. \textit{Native Image} ermöglicht das ahead-of-time kompilieren von Java-Anwendungen in nativ ausführbare Dateien (executables).
+Darüber hinaus verfügt GraalVM über die Möglichkeit der polyglotten Programmierung mithilfe des Truffle-Frameworks und der Ausführung von nativem Code auf der JVM, durch einen LLVM Bitcode Interpreter.
+Zudem bietet GraalVM die \textit{Native Image} Funktionalität, die im weiteren Verlauf dieser Arbeit thematisiert wird. \textit{Native Image} ermöglicht das ahead-of-time kompilieren von Java-Anwendungen in nativ ausführbare Dateien (engl. executable), in dieser Arbeit als \textit{native image} bezeichnet.
 Die Grundlage von GraalVM bietet das OpenJDK\parencite{GraalComponents}.\newline
 
- Darin enthalten ist, neben Komponenten \& Werkzeugen für die Entwicklung, auch die Java-Laufzeitumgebung (Java Runtime Environment, JRE), welche die HotSpot JVM enthält.
+ Darin enthalten ist, neben Komponenten \& Werkzeugen für die Entwicklung, auch die Java-Laufzeitumgebung (Java Runtime Environment, JRE), welche die HotSpot JVM beinhaltet.
 Die Hotspot JVM enthält zwei JIT-Compiler: C1, einen schnellen und nur leicht optimierenden Compiler, ursprünglich gedacht für Desktopanwendungen, und C2, einen aggressiv optimierenden Compiler für 
-Serveranwendungen, bei denen es auf höchsten Durchsatz ankommt.
+Serveranwendungen, bei denen es auf höchsten Durchsatz ankommt\parencite{OracleHotSpot}.
 Über das JMVCI (Java Virtual Machine Compiler Interface, \parencite{OpenJDK243}) wird der GraalVM-Compiler in das OpenJDK integriert und ersetzt den Compiler C2 der HotSpot JVM. Entgegen des Namens ist GraalVM
-also genau genommen keine eigene virtuelle Maschine, sondern nutzt die HotSpot JVM mit einem anderen JIT-Compiler.
+also genau genommen keine eigene virtuelle Maschine, sondern nutzt die HotSpot JVM mit einem anderen JIT-Compiler und bietet einiges an Zusatzfunktionalität.
 \newpage
 \subsection{NativeImage}
 \label{subsec:nativeImage}
 
 Die \textit{NativeImage}-Funktionalität wird bei GraalVM als optionale Komponente angeboten, und muss explizit installiert werden. 
-Sie erlaubt die AOT-Kompilierung von Java-Anwendungen in nativ ausführbare Dateien (executables bzw. \textit{native images}).
-Das executable läuft nicht auf der JVM und bezieht Funktionalitäten, wie Speicherverwaltung, Thread-Scheduling und Garbage Collection von einer, auf das notwendigste reduzierten, in Java geschriebenen virtuellen Machine
+Sie erlaubt die AOT-Kompilierung von Java-Anwendungen in nativ ausführbare Dateien.
+Das \textit{native image} läuft nicht auf der JVM und bezieht Funktionalitäten, wie Speicherverwaltung, Thread-Scheduling und Garbage Collection von einer, auf das notwendigste reduzierten, in Java geschriebenen virtuellen Machine
 , genannt \textit{SubstrateVM}\parencite{GraalVMNativeImage}. Die \textit{SubstrateVM} wird, zusätzlich zum Anwendungscode, Bibliotheken und dem JDK in das \textit{native image} hineinkompiliert.
-Weil das executable in sich abgeschlossen ist muss dabei die Closed-World Annahme erfüllt werden, das heißt jeglicher Bytecode muss zum Zeitpunkt der Kompilierung bzw. zur Build-Time bekannt und vorhanden sein, und 
-zur Laufzeit dürfen keine neuen Klassen geladen bzw. Bytecode generiert werden. Ansonsten wäre ein Großteil der ausgeführten Optimierungen während der Build-Time nicht möglich.
+Weil das executable in sich abgeschlossen ist muss die Closed-World Annahme erfüllt werden, das heißt jeglicher Bytecode muss zum Zeitpunkt der Kompilierung bzw. zur Build-Time bekannt und vorhanden sein, und 
+zur Laufzeit dürfen keine neuen Klassen geladen oder Bytecode generiert werden. Ansonsten wäre ein Großteil der ausgeführten Optimierungen während der Build-Time nicht möglich.
 
-Im Weiteren Verlauf der Arbeit wird der gesamte Build-Prozess erläutert, Performanceparameter zwischen einer Anwendung als \textit{native image} und auf der Hotspot JVM verglichen, sowie die Limitierungen des 
-\textit{native image}-Ansatzes dargelegt.
+Im Weiteren Verlauf der Arbeit wird der gesamte Build-Prozess erläutert, Performanceparameter zwischen einer Anwendung als \textit{native image} und auf der Hotspot JVM verglichen, sowie die Limitierungen von GraalVM Native Image dargelegt.

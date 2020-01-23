@@ -3,7 +3,9 @@
 \label{sec:performanceBenchmarks}
 
 GraalVM bietet die Option statt des Graal-Compilers auch den HotSpot-Compiler zu nutzen. Dadurch kann mit verhältnismäßig wenig Aufwand
-die Startzeit und der Speicherbedarf einer Anwendung, abhängig vom verwendeten Compiler verglichen werden. Bei einem trivialen Java-Microservice, implementiert in den populären
+die Startzeit und der Speicherbedarf einer Anwendung, abhängig vom verwendeten Compiler verglichen werden.
+
+ Bei einem trivialen Java-Microservice, implementiert in den populären
 Microservice Frameworks Quarkus, Micronaut und Helidon\footnote{Diese Frameworks nutzen GraalVM standardmäßig als Anwendungsplattform}, konnten erhebliche Unterschiede bei der Startzeit und 
 beim Speicherbedarf festgestellt werden, je nachdem welcher Compiler genutzt wurde. Wenn der Microservice mit dem Graal-Compiler zu einem \textit{native image} kompiliert wurde, war die Startzeit um
 ca. den Faktor 50 schneller (siehe Abb. \ref{fig:system_startuptime}) und der Speicherbedarf um ca. den Faktor 5 geringer (siehe Abb. \ref{fig:system_memory_footprint}) war,
